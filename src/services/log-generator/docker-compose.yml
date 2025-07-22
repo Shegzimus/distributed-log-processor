@@ -1,9 +1,9 @@
 services:
   log-generator:
     build:
-      context: ./src/services/log-generator
+      context: .
     volumes:
-      - ./src/services/log-generator:/app
+      - .:/app
       - ./logs:/logs
     environment:
       - LOG_RATE=10
