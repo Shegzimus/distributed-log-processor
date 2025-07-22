@@ -5,3 +5,4 @@ __pycache__/
 .env
 venv/
 data/
+src/services/log-generator/logs/generated_logs.log
