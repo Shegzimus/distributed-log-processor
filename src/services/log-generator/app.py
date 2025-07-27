@@ -16,10 +16,10 @@ def main():
         print(f"  {key}: {value}")
     
     # Create and run the log generator
-    generator = LogGenerator(config)
+    generator: object = LogGenerator(config)
     
     # Check if duration was provided as command line argument
-    duration = None
+    duration: float = None
     if len(sys.argv) > 1:
         try:
             duration = float(sys.argv[1])
