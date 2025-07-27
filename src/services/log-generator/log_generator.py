@@ -7,27 +7,27 @@ import random
 from datetime import datetime
 
 class LogGenerator:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         """Initialize the log generator with configuration settings."""
-        self.config = config
+        self.config: dict = config
         self.ensure_log_directory()
         
-    def ensure_log_directory(self):
+    def ensure_log_directory(self) -> None:
         """Make sure the log directory exists."""
-        log_dir = os.path.dirname(self.config["OUTPUT_FILE"])
+        log_dir: str = os.path.dirname(self.config["OUTPUT_FILE"])
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)
     
-    def generate_log_message(self):
+    def generate_log_message(self) -> str:
         """Generate a random log message based on configuration."""
         # Select log type based on distribution
-        log_type = self._select_log_type()
+        log_type: str = self._select_log_type()
         
         # Generate timestamp
-        timestamp = datetime.now().isoformat()
+        timestamp: str = datetime.now().isoformat()
         
         # Create sample messages based on log type
-        messages = {
+        messages: dict = {
             "INFO": [
                 "User logged in successfully",
                 "Page loaded in 0.2 seconds",
@@ -60,26 +60,26 @@ class LogGenerator:
         
         # Select a random message for the chosen log type
         if log_type in messages:
-            message = random.choice(messages[log_type])
+            message: str = random.choice(messages[log_type])
         else:
-            message = f"Sample log message for {log_type}"
+            message: str = f"Sample log message for {log_type}"
             
         # Generate a unique ID for this log entry
-        log_id = f"LOG-{int(time.time())}-{random.randint(1000, 9999)}"
+        log_id: str = f"LOG-{int(time.time())}-{random.randint(1000, 9999)}"
         
         # Create the full log entry
-        log_entry = f"{timestamp} [{log_type}] [{log_id}]: {message}"
+        log_entry: str = f"{timestamp} [{log_type}] [{log_id}]: {message}"
         return log_entry
     
-    def _select_log_type(self):
+    def _select_log_type(self) -> str:
         """Select a log type based on the configured distribution."""
-        distribution = self.config["LOG_DISTRIBUTION"]
-        types = list(distribution.keys())
-        weights = list(distribution.values())
+        distribution: dict = self.config["LOG_DISTRIBUTION"]
+        types: list = list(distribution.keys())
+        weights: list = list(distribution.values())
         
         return random.choices(types, weights=weights, k=1)[0]
     
-    def write_log(self, log_entry):
+    def write_log(self, log_entry: str) -> None:
         """Write a log entry to the configured outputs."""
         # Write to file if configured
         if self.config["OUTPUT_FILE"]:
@@ -90,19 +90,19 @@ class LogGenerator:
         if self.config["CONSOLE_OUTPUT"]:
             print(log_entry)
     
-    def run(self, duration=None):
+    def run(self, duration: float | None = None) -> None:
         """Run the log generator for a specified duration or indefinitely."""
         print(f"Starting log generator with rate: {self.config['LOG_RATE']} logs/second")
         
         # Calculate sleep time based on log rate
-        sleep_time = 1.0 / self.config["LOG_RATE"] if self.config["LOG_RATE"] > 0 else 1.0
+        sleep_time: float = 1.0 / self.config["LOG_RATE"] if self.config["LOG_RATE"] > 0 else 1.0
         
-        start_time = time.time()
-        count = 0
+        start_time: float = time.time()
+        count: int = 0
         
         try:
             while duration is None or time.time() - start_time < duration:
-                log_entry = self.generate_log_message()
+                log_entry: str = self.generate_log_message()
                 self.write_log(log_entry)
                 count += 1
                 
