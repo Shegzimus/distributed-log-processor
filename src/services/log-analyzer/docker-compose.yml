@@ -1,0 +1,11 @@
+services:
+  log-analyzer:
+    build:
+      context: .
+    volumes:
+      - .:/app
+      - ./logs:/logs
+    environment:
+      - LOG_RATE=10
+      - CONSOLE_OUTPUT=true
+      - OUTPUT_FILE=/logs/generated_logs.log
